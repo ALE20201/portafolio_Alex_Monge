@@ -1,11 +1,17 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package com.tienda.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
+
 public class Item extends Producto {
+
     private int cantidad; //Almacenar la cantidad de items de un producto
 
     public Item() {
@@ -22,5 +28,5 @@ public class Item extends Producto {
         super.setRutaImagen(producto.getRutaImagen());
         this.cantidad = 0;
     }
-}
 
+}

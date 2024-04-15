@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package com.tienda.service.impl;
 
 import com.tienda.dao.RolDao;
@@ -11,7 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UsuarioServiceImpl implements UsuarioService {
+public class UsuarioServiceImpl implements UsuarioService{
+
     @Autowired
     private UsuarioDao usuarioDao;
     @Autowired
@@ -70,4 +75,5 @@ public class UsuarioServiceImpl implements UsuarioService {
     public void delete(Usuario usuario) {
         usuarioDao.delete(usuario);
     }
+    
 }

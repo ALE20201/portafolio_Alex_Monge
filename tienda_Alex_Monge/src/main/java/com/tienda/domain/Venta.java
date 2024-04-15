@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package com.tienda.domain;
 
 import jakarta.persistence.*;
@@ -6,19 +10,20 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="venta")
-public class Venta implements Serializable {    
+@Table(name = "venta")
+public class Venta implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id_venta")
+    @Column(name = "id_venta")
     private Long idVenta;
     private Long idFactura;
-    private Long idProducto;    
+    private Long idProducto;
     private double precio;
-    private int cantidad;    
-    
+    private int cantidad;
+
     public Venta() {
     }
 
@@ -28,5 +33,5 @@ public class Venta implements Serializable {
         this.precio = precio;
         this.cantidad = cantidad;
     }
-}
 
+}

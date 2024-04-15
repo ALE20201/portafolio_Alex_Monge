@@ -1,21 +1,25 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package com.tienda.service.impl;
 
-import com.tienda.dao.FacturaDao;
-import com.tienda.dao.VentaDao;
-import com.tienda.domain.Producto;
-import com.tienda.domain.Usuario;
-import com.tienda.domain.Factura;
-import com.tienda.domain.Item;
-import com.tienda.domain.Venta;
-import com.tienda.service.UsuarioService;
-import com.tienda.service.ItemService;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import com.tienda.dao.FacturaDao;
 import com.tienda.dao.ProductoDao;
+import com.tienda.dao.VentaDao;
+import com.tienda.domain.Producto;
+import com.tienda.domain.Usuario;
+import com.tienda.domain.Factura;
+import com.tienda.domain.Item;
+import com.tienda.domain.Venta;
+import com.tienda.service.ItemService;
+import com.tienda.service.UsuarioService;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -24,12 +28,13 @@ public class ItemServiceImpl implements ItemService {
     public List<Item> gets() {
         return listaItems;
     }
-
     //Se usa en el addCarrito... agrega un elemento
+
     @Override
     public void save(Item item) {
         boolean existe = false;
         for (Item i : listaItems) {
+
             //Busca si ya existe el producto en el carrito
             if (Objects.equals(i.getIdProducto(), item.getIdProducto())) {
                 //Valida si aún puede colocar un item adicional -segun existencias-
@@ -41,7 +46,7 @@ public class ItemServiceImpl implements ItemService {
                 break;
             }
         }
-        if (!existe) {//Si no está el producto en el carrito se agrega cantidad =1.            
+        if (!existe) {//Si no está el producto en el carritose agrega cantidad =1. 
             item.setCantidad(1);
             listaItems.add(item);
         }
@@ -64,7 +69,7 @@ public class ItemServiceImpl implements ItemService {
         }
     }
 
-    //Se obtiene la información de un producto del carrito... para modificarlo
+    //Se obtiene la información de un producto del carrito...para modificarlo
     @Override
     public Item get(Item item) {
         for (Item i : listaItems) {
@@ -88,7 +93,6 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private UsuarioService uuarioService;
-
     @Autowired
     private FacturaDao facturaDao;
     @Autowired
@@ -99,7 +103,6 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public void facturar() {
         System.out.println("Facturando");
-
         //Se obtiene el usuario autenticado
         String username;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -108,29 +111,22 @@ public class ItemServiceImpl implements ItemService {
         } else {
             username = principal.toString();
         }
-
         if (username.isBlank()) {
             return;
         }
-
         Usuario uuario = uuarioService.getUsuarioPorUsername(username);
-
         if (uuario == null) {
             return;
         }
-
         Factura factura = new Factura(uuario.getIdUsuario());
         factura = facturaDao.save(factura);
-
         double total = 0;
         for (Item i : listaItems) {
-            System.out.println("Producto: " + i.getDescripcion()
-                    + " Cantidad: " + i.getCantidad()
-                    + " Total: " + i.getPrecio() * i.getCantidad());
-            Venta venta = new Venta(factura.getIdFactura(), i.getIdProducto(), i.getPrecio(), i.getCantidad());
+            System.out.println("Producto: " + i.getDescripcion()+ " Cantidad: " + i.getCantidad() + " Total: " + i.getPrecio() * i.getCantidad());
+            Venta venta = new Venta(factura.getIdFactura(),i.getIdProducto(), i.getPrecio(), i.getCantidad());
             ventaDao.save(venta);
             Producto producto = productoDao.getReferenceById(i.getIdProducto());
-            producto.setExistencias(producto.getExistencias()-i.getCantidad());
+            producto.setExistencias(producto.getExistencias()- i.getCantidad());
             productoDao.save(producto);
             total += i.getPrecio() * i.getCantidad();
         }
@@ -138,4 +134,6 @@ public class ItemServiceImpl implements ItemService {
         facturaDao.save(factura);
         listaItems.clear();
     }
+
+
 }
